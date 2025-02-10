@@ -38,34 +38,47 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     // MARK: - UITableViewDataSource
-
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        switch section {
+        case 0:
+            return 4
+        case 1:
+            return 1
+        default:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
 
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
-            cell.textLabel?.text = "Name"
-            cell.detailTextLabel?.text = developerInfo.name
-            cell.accessoryType = .none
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Name"
+                cell.detailTextLabel?.text = developerInfo.name
+                cell.accessoryType = .none
+            case 1:
+                cell.textLabel?.text = "Email"
+                cell.detailTextLabel?.text = developerInfo.email
+                cell.accessoryType = .disclosureIndicator
+            case 2:
+                cell.textLabel?.text = "GitHub"
+                cell.accessoryType = .disclosureIndicator
+            case 3:
+                cell.textLabel?.text = "LinkedIn"
+                cell.accessoryType = .disclosureIndicator
+            default:
+                break
+            }
         case 1:
-            cell.textLabel?.text = "Email"
-            cell.detailTextLabel?.text = developerInfo.email
-            cell.accessoryType = .disclosureIndicator
-        case 2:
-            cell.textLabel?.text = "GitHub"
-            cell.detailTextLabel?.text = developerInfo.github
-            cell.accessoryType = .disclosureIndicator
-        case 3:
-            cell.textLabel?.text = "LinkedIn"
-            cell.detailTextLabel?.text = developerInfo.linkedIn
+            cell.textLabel?.text = "Data Source"
+            cell.detailTextLabel?.text = "OpenLibrary"
             cell.accessoryType = .disclosureIndicator
         default:
             break
@@ -81,13 +94,25 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 
         var urlString: String?
 
-        switch indexPath.row {
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
+            case 1:
+                urlString = "mailto:\(developerInfo.email)"
+            case 2:
+                urlString = developerInfo.github
+            case 3:
+                urlString = developerInfo.linkedIn
+            default:
+                break
+            }
         case 1:
-            urlString = "mailto:\(developerInfo.email)"
-        case 2:
-            urlString = developerInfo.github
-        case 3:
-            urlString = developerInfo.linkedIn
+            switch indexPath.row {
+                case 0:
+                urlString = "https://openlibrary.org/"
+            default:
+                break
+            }
         default:
             break
         }
