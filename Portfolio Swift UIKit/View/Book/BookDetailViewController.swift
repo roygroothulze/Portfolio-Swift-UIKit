@@ -16,6 +16,7 @@ class BookDetailViewController: UIViewController {
     private let yearLabel = UILabel()
     private let editionCountLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let shareButton = UIButton(type: .system)
 
     init(book: Book) {
         self.book = book
@@ -63,12 +64,17 @@ class BookDetailViewController: UIViewController {
         descriptionLabel.numberOfLines = 0
         view.addSubview(descriptionLabel)
 
+        shareButton.setTitle("Share", for: .normal)
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
+        view.addSubview(shareButton)
+
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         yearLabel.translatesAutoresizingMaskIntoConstraints = false
         editionCountLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -95,7 +101,10 @@ class BookDetailViewController: UIViewController {
             descriptionLabel.topAnchor.constraint(equalTo: editionCountLabel.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            descriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+
+            shareButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            shareButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            shareButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
 
@@ -121,5 +130,16 @@ class BookDetailViewController: UIViewController {
                 print("Failed to fetch cover image: \(error)")
             }
         }
+    }
+
+    @objc private func shareButtonTapped() {
+        let bookInfo = """
+        I found the following book online!
+        Title: \(book.title)
+        Author: \(book.authorName?.joined(separator: ", ") ?? "Unknown")
+        First Publish Year: \(book.firstPublishYear)
+        """
+        let activityViewController = UIActivityViewController(activityItems: [bookInfo], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
 }
