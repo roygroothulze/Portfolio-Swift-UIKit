@@ -19,7 +19,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         setupTableView()
         setupEmptyStateLabel()
         updateEmptyState()
-        
+
         view.backgroundColor = .white
     }
 
@@ -31,6 +31,14 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.largeTitleDisplayMode = .always
+
+        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(openSettings))
+        navigationItem.rightBarButtonItem = settingsButton
+    }
+
+    @objc private func openSettings() {
+        let settingsViewController = SettingsViewController()
+        navigationController?.pushViewController(settingsViewController, animated: true)
     }
 
     private func setupTableView() {
