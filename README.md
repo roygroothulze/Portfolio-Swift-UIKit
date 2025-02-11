@@ -2,8 +2,8 @@
 Created by [Roy Groot Hulze](https://roygroothulze.nl)
 
 ## Project information
-Framework: UIKit
-External API: OpenLibrary
+- Framework: UIKit
+- External API: OpenLibrary
 
 ## Features
 - Search books
